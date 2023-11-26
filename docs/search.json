@@ -1,0 +1,156 @@
+[
+  {
+    "objectID": "docs.html#cox-proportional-hazard-model",
+    "href": "docs.html#cox-proportional-hazard-model",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Cox Proportional Hazard Model",
+    "text": "Cox Proportional Hazard Model\n\n\nDeveloped by Sir David R Cox, a British statistician, in 1972\nAlso called Cox Regression\nUsed to investigate time to event data, e.g. time until patient dies, time until part malfunctions, time until decision is made, etc.\nThe field of Survival Analysis works with a lot of time to event data, and makes a lot of use of the Cox Proportional Hazards Model and its extensions"
+  },
+  {
+    "objectID": "docs.html#prior-to-cox-ph-model",
+    "href": "docs.html#prior-to-cox-ph-model",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Prior to Cox PH Model",
+    "text": "Prior to Cox PH Model\nLog Rank Test - compares groups, testing a null hypothesis that there is no difference between groups. Limitations: ability to handle multiple variables, ability to quantify a difference between groups\nKaplan-Meier Survival Curve - very simple to implement, graphs how many are alive in each group at what time. Limitations: ability to handle more than a few variables and any non-categorical variables, no mathematical function to describe the data, can not estimate a ratio of the hazards between groups,"
+  },
+  {
+    "objectID": "docs.html#example-kaplan-meier-survival-curve",
+    "href": "docs.html#example-kaplan-meier-survival-curve",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Example Kaplan-Meier Survival Curve",
+    "text": "Example Kaplan-Meier Survival Curve"
+  },
+  {
+    "objectID": "docs.html#cox-proportional-hazards-model",
+    "href": "docs.html#cox-proportional-hazards-model",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Cox Proportional Hazards Model",
+    "text": "Cox Proportional Hazards Model\n\\(h_0(t)\\) is the baseline hazard - for example what is your baseline hazard (risk, chance) of dying\n\\(h(t)\\) is the hazard at time t for the group of interest.\nThis hazard \\(h(t)\\) can be modeled as the baseline hazard times an exponential function describing the affect of the predictor variables \\[\nh(t)=h_0(t) \\times exp (\\beta_1X_{1} + \\beta_{2}X_{2} + \\dots + \\beta_n X_{n})\n\\]"
+  },
+  {
+    "objectID": "docs.html#cox-proportional-hazards-model-1",
+    "href": "docs.html#cox-proportional-hazards-model-1",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Cox Proportional Hazards Model",
+    "text": "Cox Proportional Hazards Model\n\\[ h(t)=h_0(t) \\times exp (\\beta_1X_{1} + \\beta_{2}X_{2} + \\dots + \\beta_n X_{n}) \\]\nDividing both sides by the baseline hazard we get the hazard ratio\n\\[\nh(t)/h_0(t)= exp (\\beta_1X_{1} + \\beta_{2}X_{2} + \\dots + \\beta_n X_{n})\n\\]\nTaking the natural log yields a formula that has some similarity to linear regression. The log of the hazard ratio has a linear relationship to the predictor variables.\n\\[\nln(h(t)/h_0(t))= \\beta_1X_{1} + \\beta_{2}X_{2} + \\dots + \\beta_n X_{n}\n\\]"
+  },
+  {
+    "objectID": "docs.html#cox-phm-assumptions---assumptions-in-common-with-many-other-models",
+    "href": "docs.html#cox-phm-assumptions---assumptions-in-common-with-many-other-models",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Cox PHM Assumptions - Assumptions in common with many other models",
+    "text": "Cox PHM Assumptions - Assumptions in common with many other models\nLinearity - model assumes the log of the hazard ratio is linearly proportional to the predictor variables. Check for this with plot of residuals, similar to how other models check for this. The methods for handling data that violates this assumption is same as it is for other forms of regression\nObservations are independent - the survival of one person is independent of the survival of another person. Example of when this may be more of an issue, less common hereditary health conditions, study participants may be related.\nCensoring is non-informative - those that are censored, example leave the study, are just as likely to experience the event, example death, as those that finish the study."
+  },
+  {
+    "objectID": "docs.html#cox-phm-assumptions---more-specific-to-this-model",
+    "href": "docs.html#cox-phm-assumptions---more-specific-to-this-model",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Cox PHM Assumptions - more specific to this model",
+    "text": "Cox PHM Assumptions - more specific to this model\nProportional Hazards - model assumes the hazards are proportional.\n\ncheck this with Schoenffieldt test\nhandle violations with: stratification (we will see this in our example), or introduce time dependent parameters “(x*t)” instead of simply “x”\n\nIndependent variables are not changed over time - example people moved from one cohort of the study to another, dosage changes. If this occurs, need an extension of the Cox PHM that allows for time-dependent covariates."
+  },
+  {
+    "objectID": "docs.html#methods",
+    "href": "docs.html#methods",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Methods",
+    "text": "Methods\n\nGet familiar with the dataset.\nCreate first model - uses all the patients but only the predictor variables that are available for all the patients.\nCreate a second model - uses only the patients that received the heart transplant with the additional variable available for those patients. Does that variables inclusion improve the model?\nCreate a third model - remove the variable that had the least significant p-value in the previous models.\nCompare the third and first model - to determine if indeed that variable can be dropped from the model.\nCheck data set meets linearity and proportional hazards assumptions - implement any methods needed to resolve assumption violations.\nCreate a fourth model that incorporates changes made to address assumption violations.\nExtra, create a fifth model that looks at age as a category (&lt;40, 40-50, 50+) vs a continuous variable.\n\n*Note. Methods and results were very iterative, the results of one model dictated what needed to be adjusted and that a revised model needed to be calculated."
+  },
+  {
+    "objectID": "docs.html#analysis-data-examination-and-transformation",
+    "href": "docs.html#analysis-data-examination-and-transformation",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Analysis (Data Examination and Transformation)",
+    "text": "Analysis (Data Examination and Transformation)\n\n\nData source: Stanford University Heart Transplant Study [1]\nData set contains data for 99 patients\nObjective: To assess the potential increase in recipient lifespan through an experimental heart transplant program\nPatient inclusion criteria: Official heart transplant candidates\nTiming of transplants: Occurrence varies from a few weeks to several months, contingent on donor heart availability\nStatus of candidates: Some candidates may elect not to receive a heart transplant, they are retained in the dataset as controls [1]\nContribution to analysis: Continuing candidates play a role in censoring data, impacting the study’s analysis and outcomes"
+  },
+  {
+    "objectID": "docs.html#variables",
+    "href": "docs.html#variables",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Variables",
+    "text": "Variables\n\n\nPredictors (X variables) in the Cox model:\n\nAccepted year: Recorded as “acceptyear,” denoting the year a patient was accepted as a heart transplant candidate\nAge at acceptance: Identified as “age” in the dataset, indicating the patient’s age when accepted into the study\nPrior surgeries: Recorded under the header “prior,” indicating whether the patient had undergone prior surgeries\nTransplant status: Recorded as “transplant,” indicating whether the patient received a heart transplant\n\nCriteria (Y variables) for analysis:\n\nSurvival status: Recorded as “survived,” denoting whether the patient survived until the conclusion of the experiment\nSurvival duration: Labeled “survtime,” indicating the number of days a patient lived after receiving the transplant"
+  },
+  {
+    "objectID": "docs.html#data-prior-to-transformation",
+    "href": "docs.html#data-prior-to-transformation",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Data prior to Transformation",
+    "text": "Data prior to Transformation\n\nTable 1: Summary of First 15 rows of Heart Transplant Dataset\nVariables within the data set such as: survived, prior, and transplant needed to be converted from characteristic columns to numeric columns as can be seen in table 1."
+  },
+  {
+    "objectID": "docs.html#how-models-were-evaluated",
+    "href": "docs.html#how-models-were-evaluated",
+    "title": "Cox Proportional Hazards Model",
+    "section": "How models were evaluated",
+    "text": "How models were evaluated\nIn our group’s pursuit of identifying the most robust and predictive model, we turned to the concordance statistics - the C-statistic, as a guiding metric for a model selection. The C-statistic serves as a valuable tool for assessing the discriminatory power of predictive models, aiding in our ability to distinguish their aptitude for accurately ranking risks and predicting outcomes. A c-statistic of 0.5 indicates a model does no better than a coin flip at predicting an outcome. Our findings are as follows:"
+  },
+  {
+    "objectID": "docs.html#models",
+    "href": "docs.html#models",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Models",
+    "text": "Models\nModel 1: Excluding Wait Time\nOur initial model was constructed without considering wait time as a variable. This decision was rooted in the understanding that wait time data was only available for patients who ultimately received a heart transplant, excluding those who did not have the opportunity to undergo the procedure. The C-statistic for this model, as presented in Table 2, was calculated to be 0.747. This initial C-statistic provided an encouraging start for our analysis.\n\n#generate model without wait time\n#wait time is only available for those who received transplant\nall.mod &lt;- coxph(Surv(survtime, survived2)~ acceptyear + age + prior2 + transplant2)\n\n\n\n\nTable 2: Excluding Wait Time\n\n\nModel 2: Including Wait Time for Transplant Recipients\nThe second model purpose was to assess the significance of wait time as a predictor of outcomes but was excluded as a final model due to the fact that: the wait variable did not have a p-value &lt; 0.05, the model excluded the control group. the C-statistic for this model decreased 0.683,\n\n#generate model with wait time to see if wait time is significant, only looks at records that received the transplant not the control who did not receive transplant\ntreated.mod &lt;- coxph(Surv(survtime, survived2)~ acceptyear + age + prior2 + wait)\n\n\ntreated.mod &lt;- coxph(Surv(survtime, survived2)~ acceptyear + age + prior2 + wait)\nsummary(treated.mod)\n\n\n\n\nTable 3: Including Wait Time for Transplant Recipients\n\n\nModel 3: Without Accepted Year\nIn the previous models, the “accepted year” variable showed high p-values. The group wanted to see if “accepted year” could be removed as a variable. A C-statistic of 0.739 was obtained for this refined model,\n\n#generate model without accepted year\nall2.mod &lt;- coxph(Surv(survtime, survived2)~ age + prior2 + transplant2)\n\n\n\n\nTable 4: Without Accepted Year\n\n\nANOVA Table: Variable Selection and ANOVA Table\nContinuing our goal for the most informative model, we developed a third model. In this iteration, we sought to explore the influence of the “accepted year” variable on predictive capabilities. To make an informed decision regarding the necessity of including this variable, we meticulously assessed its impact using an ANOVA table (as shown in Table 5). The analysis provided us with a p-value of 0.209, exceeding the common significance level of 0.05. As a result, we concluded that “accepted year” could be excluded as a variable in the model.\n\n#compare model that includes acceptedyear and that does not\n#high p value, there is not a statistically significant difference between the two models, can drop the variable\nanova(all.mod, all2.mod, test=\"LRT\")\n\n\n\n\nTable 5: ANOVA Table"
+  },
+  {
+    "objectID": "docs.html#checking-model-assumptions",
+    "href": "docs.html#checking-model-assumptions",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Checking Model Assumptions",
+    "text": "Checking Model Assumptions\nThere are two assumptions that must be checked.\nLinearity - The relationship between the x variables and the log hazard should be linear. Similar to checking for linearity in other models, a residual plot is examined. Here the Martingale residuals are used. A smooth line is added to the graph to aid in assessing how well the points center around zero. This data meets the linearity assumption.\n\nall2.mod &lt;- coxph(Surv(survtime, survived2)~ age + prior2 + transplant2)\nplot(predict(all2.mod), residuals(all2.mod, type=\"martingale\"), xlab = \"Predicted Values\", ylab = \"Martingale Residuals\", main = \"All2 Residual Plot\",las=1)\nlines(smooth.spline(predict(all2.mod), residuals(all2.mod, type = \"martingale\")),col=\"red\")\n\n\n\n\nImage 1: Residual Plot\n\n\nProportional Hazards - Use the Schoenfield test.\nH0 = hazards are proportional. A high p value (&gt;0.05) here and we fail to reject the null hypothesis. A table shows the test results for each variable and the overall model.\n\ncox.zph(all2.mod)\n\n\n\n\nTable 6: Proportional Hazard p-values\n\n\nThe data set, especially the transplant status, do not meet the proportional hazards assumption. This has to be addressed and a new model created."
+  },
+  {
+    "objectID": "docs.html#model-4-stratified-transplant-status",
+    "href": "docs.html#model-4-stratified-transplant-status",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Model 4: Stratified Transplant Status",
+    "text": "Model 4: Stratified Transplant Status\nTo deal with the assumption violation, transplant status was stratified - in effect stratification creates two models one for each status (received transplant, control)\n\nall_strTrtmnt.mod &lt;- coxph(Surv(survtime, survived2)~ age + prior2 + strata(transplant2))\nsummary(all_strTrtmnt.mod)\n\n\nTable 7: Stratified Transplant Status"
+  },
+  {
+    "objectID": "docs.html#histogram-by-age-groups",
+    "href": "docs.html#histogram-by-age-groups",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Histogram by Age Groups",
+    "text": "Histogram by Age Groups\n\n\n\nImage2: Histogram by Age\n\n\n\n\nImportance of age grouping: Essential for a clearer visual representation of predominant age groups within the dataset\nRight-skewed Age Histogram: Indicates a majority of study patients are over thirty years old\nLogic behind age distribution: Correlates with the trend where individuals needing heart transplants typically have more heart wear\nPeak concentration of ages: Highest concentration observed between 45 to 50 years old\n\n\nHistogram by Age Groups\n\n\n\nImage 3: Histogram by Age Groups\n\n\n\n\nSecond histogram created to condense broader age ranges for better insight\nObservation from the initial histogram: Most represented age groups between 40s to mid-50s\nCategorization in the second histogram: Patients grouped into three categories: 40 and under, between 40-49, and 50 and over"
+  },
+  {
+    "objectID": "docs.html#extra-model-5-age-categorized",
+    "href": "docs.html#extra-model-5-age-categorized",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Extra Model 5: Age Categorized",
+    "text": "Extra Model 5: Age Categorized\nA model was generated for this age categorized variable.\n\n#generate model with chategorized age\nall_agechat.mod &lt;- coxph(Surv(survtime, survived2)~ age2 + prior2 + strata(transplant2))\nsummary(all_agechat.mod)\n\n\nTable 8: Age Categorized"
+  },
+  {
+    "objectID": "docs.html#estimated-survival-curve",
+    "href": "docs.html#estimated-survival-curve",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Estimated Survival Curve",
+    "text": "Estimated Survival Curve\nThe advantage of the Cox PHM is that we do not need to know the baseline hazard. Not knowing the baseline hazard means we can not say the hazard for the studied group. We can only give the ratio of those two. Without the baseline hazard and the hazard of the studied group, survival curves can not be calculated. However using mean values of variables a survival curve can be estimated.\n\nImage 4: Survival Plot Heart Transplant vs No Heart Transplant\nColor representation: Teal for heart transplant recipients, red for non-recipients\nStudy participants: 99 patients examined; 32 (32.32%) did not receive a transplant, while 67 (67.67%) did\nInitial 500 days’ outcome:\n\nNon-recipients: Only 1 patient survived (1.03% survivorship without transplant)\nRecipients: 22 patients survived (32.83% survivorship with transplant)\n\nPost-procedure survivorship:\n\nStudy conducted during the 1960s and 1970s; survivorship seems lower than anticipated\nAnalysis at 1500 days (4 years) post-surgery:\n\nRecipients: Only 3 patients survived among those who had a heart transplant\nNon-recipients: None of the 33 patients survived"
+  },
+  {
+    "objectID": "docs.html#research-conclusion",
+    "href": "docs.html#research-conclusion",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Research Conclusion",
+    "text": "Research Conclusion\n\n\nHeart transplantation significantly extends patients’ lives based on strong support from our study\nData source: Stanford Heart Transplant Study; analyzed using a survival analysis tool, Cox Regression model\nSuitability of Cox Regression: Ideal for time-to-event outcomes, comparing the life expectancy of patients with and without heart transplants\nPost-transplant longevity: Some patients lived an additional 1-4 years post-transplant\nModel selection: Model 4 emerged as the most effective in supporting the data and generating visual representations"
+  },
+  {
+    "objectID": "docs.html#further-research-suggestions",
+    "href": "docs.html#further-research-suggestions",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Further Research Suggestions",
+    "text": "Further Research Suggestions\n\nInclude more current data and expand sample size with additional covariates (e.g., race, sex)\nInvestigate potential differences in outcomes across various surgery centers/hospitals\nReexamine the effect of prior surgery"
+  },
+  {
+    "objectID": "docs.html#contributions-and-implications",
+    "href": "docs.html#contributions-and-implications",
+    "title": "Cox Proportional Hazards Model",
+    "section": "Contributions and Implications",
+    "text": "Contributions and Implications\n\nOur research offers insights into the complex relationship among heart transplantation, age, and patient outcomes in cardiac healthcare\nVital information for healthcare workers and patients to make informed decisions about heart transplant and end of life goals"
+  },
+  {
+    "objectID": "docs.html#references",
+    "href": "docs.html#references",
+    "title": "Cox Proportional Hazards Model",
+    "section": "References",
+    "text": "References\n[1] B. W. Turnbull, B. Wm. Brown Jr., and M. Hu, “Heart transplant data,” Data Sets, https://www.openintro.org/data/index.php?data=heart_transplant (accessed Nov. 22, 2023).\n[2] P. Schober and T. R. Vetter, “Survival analysis and interpretation of time-to-event data: The Tortoise and the hare,” Anesthesia and analgesia, https://pubmed.ncbi.nlm.nih.gov/30015653/#:~:text=Survival%20analysis%2C%20or%20more%20generally,defined%20end%20point%20of%20interest.  (accessed Oct. 7, 2023). \n[3]  D. Kumar and B. Klefsjö, “Proportional hazards model: A Review,” Reliability Engineering & System Safety, https://www.sciencedirect.com/science/article/abs/pii/0951832094900108  (accessed Oct. 7, 2023)."
+  }
+]
