@@ -145,7 +145,7 @@ The variables included in the Cox model as the x variable (or predictors) are ac
 
 ## Data prior to Transformation
 
-![Table 1: Summary of First 15 rows of Heart Transplant Dataset](Images/Head data set.png)
+![Table 1: Summary of First 15 rows of Heart Transplant Dataset](Table1 Head data set.png)
 
 -   Variables within the data set such as: survived, prior, and transplant needed to be converted from characteristic columns to numeric columns as can be seen in table 1.
 
@@ -181,7 +181,7 @@ Our initial model was constructed without considering wait time as a variable. T
 all.mod <- coxph(Surv(survtime, survived2)~ acceptyear + age + prior2 + transplant2)
 ```
 
-![Table 2: Excluding Wait Time ](Images/Screenshot 2023-11-22 at 11.12.51 AM.png)
+![Table 2: Excluding Wait Time](Table 2 Excluding wait time.png)
 
 ### **Model 2: Including Wait Time for Transplant Recipients**
 
@@ -193,12 +193,7 @@ The second model purpose was to assess the significance of wait time as a predic
 treated.mod <- coxph(Surv(survtime, survived2)~ acceptyear + age + prior2 + wait)
 ```
 
-```{r, eval=F, echo=T}
-treated.mod <- coxph(Surv(survtime, survived2)~ acceptyear + age + prior2 + wait)
-summary(treated.mod)
-```
-
-![Table 3: Including Wait Time for Transplant Recipients ](Images/Table 2.png)
+![Table 3: Including Wait Time for Transplant Recipients](Table_3_Including_wait_time.png)
 
 ### **Model 3: Without Accepted Year**
 
@@ -209,7 +204,7 @@ In the previous models, the "accepted year" variable showed high p-values. The g
 all2.mod <- coxph(Surv(survtime, survived2)~ age + prior2 + transplant2)
 ```
 
-![Table 4: Without Accepted Year](Images/Table 3.png)
+![Table 4: Without Accepted Year](Table 4 Without accepted year.png)
 
 ### **ANOVA Table: Variable Selection and ANOVA Table**
 
@@ -221,7 +216,7 @@ Continuing our goal for the most informative model, we developed a third model. 
 anova(all.mod, all2.mod, test="LRT")
 ```
 
-![Table 5: ANOVA Table](Images/ANOVA table.png)
+![Table 5: ANOVA Table](Table 5 ANOVA table.png)
 
 ## Checking Model Assumptions {.scrollable}
 
@@ -235,7 +230,7 @@ plot(predict(all2.mod), residuals(all2.mod, type="martingale"), xlab = "Predicte
 lines(smooth.spline(predict(all2.mod), residuals(all2.mod, type = "martingale")),col="red")
 ```
 
-![Image 1: Residual Plot](Images/All2_Residual_Plot.png)
+![Image 1: Residual Plot](Image 1 Residual Plot.png)
 
 **Proportional Hazards** - Use the Schoenfield test.
 
@@ -245,7 +240,7 @@ H0 = hazards are proportional. A high p value (\>0.05) here and we fail to rejec
 cox.zph(all2.mod)
 ```
 
-![Table 6: Proportional Hazard p-values](Images/Proportional Hazard.png){width="602"}
+![Table 6: Proportional Hazard p-values](Table 6 Proportional Hazard.png){width="602"}
 
 The data set, especially the transplant status, do not meet the proportional hazards assumption. This has to be addressed and a new model created.
 
@@ -255,14 +250,13 @@ To deal with the assumption violation, transplant status was stratified - in eff
 
 ```{r, eval=F, echo=T}
 all_strTrtmnt.mod <- coxph(Surv(survtime, survived2)~ age + prior2 + strata(transplant2))
-summary(all_strTrtmnt.mod)
 ```
 
-![Table 7: Stratified Transplant Status](Images/Model 4.png){width="894"}
+![Table 7: Stratified Transplant Status](Table 7 Stratified Transplant.png){width="894"}
 
 ## Histogram by Age Groups {.scrollable}
 
-![Image2: Histogram by Age](Images/Histogram_of_age.png)
+![Image2: Histogram by Age](Histogram_of_age.png)
 
 ::: incremental
 -   Importance of age grouping: Essential for a clearer visual representation of predominant age groups within the dataset
@@ -280,7 +274,7 @@ Grouping patients by age was crucial to obtain a clearer visual depiction of the
 
 ### Histogram by Age Groups
 
-![Image 3: Histogram by Age Groups](Images/Histogram_of_age2.png)
+![Image 3: Histogram by Age Groups](Histogram_of_age2.png)
 
 ::: incremental
 -   Second histogram created to condense broader age ranges for better insight
@@ -304,13 +298,14 @@ all_agechat.mod <- coxph(Surv(survtime, survived2)~ age2 + prior2 + strata(trans
 summary(all_agechat.mod)
 ```
 
-![Table 8: Age Categorized](Images/Model 5.png)
+![Table 8: Age Categorized](Table 8 Age categorized.png)
 
 ## Estimated Survival Curve {.scrollable}
 
 The advantage of the Cox PHM is that we do not need to know the baseline hazard. Not knowing the baseline hazard means we can not say the hazard for the studied group. We can only give the ratio of those two. Without the baseline hazard and the hazard of the studied group, survival curves can not be calculated. However using mean values of variables a survival curve can be estimated.
 
-![Image 4: Survival Plot Heart Transplant vs No Heart Transplant](Images/Survival Plot.png)
+
+![Image 4: Survival Plot Heart Transplant vs No Heart Transplant](Image 4 Survival Plot.png)
 
 -   Color representation: Teal for heart transplant recipients, red for non-recipients
 

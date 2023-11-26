@@ -8,7 +8,7 @@
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="site_libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.3.450">
+  <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Ivan Burgos, Vladimir Dragomirov">
   <title>Cox Proportional Hazards Model</title>
@@ -506,7 +506,7 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 <section id="data-prior-to-transformation" class="slide level2">
 <h2>Data prior to Transformation</h2>
 
-<img data-src="Images/Head data set.png" class="r-stretch quarto-figure-center"><p class="caption">Table 1: Summary of First 15 rows of Heart Transplant Dataset</p><ul>
+<img data-src="Table1 Head data set.png" class="r-stretch quarto-figure-center"><p class="caption">Table 1: Summary of First 15 rows of Heart Transplant Dataset</p><ul>
 <li>Variables within the data set such as: survived, prior, and transplant needed to be converted from characteristic columns to numeric columns as can be seen in table 1.</li>
 </ul>
 </section>
@@ -525,7 +525,7 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/Screenshot 2023-11-22 at 11.12.51 AM.png"></p>
+<p><img data-src="Table 2 Excluding wait time.png"></p>
 <figcaption>Table 2: Excluding Wait Time</figcaption>
 </figure>
 </div>
@@ -535,38 +535,34 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#generate model with wait time to see if wait time is significant, only looks at records that received the transplant not the control who did not receive transplant</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>treated.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> acceptyear <span class="sc">+</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> wait)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>treated.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> acceptyear <span class="sc">+</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> wait)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">summary</span>(treated.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/Table 2.png"></p>
+<p><img data-src="Table_3_Including_wait_time.png"></p>
 <figcaption>Table 3: Including Wait Time for Transplant Recipients</figcaption>
 </figure>
 </div>
 <h3 id="model-3-without-accepted-year"><strong>Model 3: Without Accepted Year</strong></h3>
 <p>In the previous models, the “accepted year” variable showed high p-values. The group wanted to see if “accepted year” could be removed as a variable. A C-statistic of 0.739 was obtained for this refined model,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#generate model without accepted year</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>all2.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> transplant2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#generate model without accepted year</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>all2.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> transplant2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/Table 3.png"></p>
+<p><img data-src="Table 4 Without accepted year.png"></p>
 <figcaption>Table 4: Without Accepted Year</figcaption>
 </figure>
 </div>
 <h3 id="anova-table-variable-selection-and-anova-table"><strong>ANOVA Table: Variable Selection and ANOVA Table</strong></h3>
 <p>Continuing our goal for the most informative model, we developed a third model. In this iteration, we sought to explore the influence of the “accepted year” variable on predictive capabilities. To make an informed decision regarding the necessity of including this variable, we meticulously assessed its impact using an ANOVA table (as shown in Table 5). The analysis provided us with a p-value of 0.209, exceeding the common significance level of 0.05. As a result, we concluded that “accepted year” could be excluded as a variable in the model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#compare model that includes acceptedyear and that does not</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#high p value, there is not a statistically significant difference between the two models, can drop the variable</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">anova</span>(all.mod, all2.mod, <span class="at">test=</span><span class="st">"LRT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#compare model that includes acceptedyear and that does not</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#high p value, there is not a statistically significant difference between the two models, can drop the variable</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">anova</span>(all.mod, all2.mod, <span class="at">test=</span><span class="st">"LRT"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/ANOVA table.png"></p>
+<p><img data-src="Table 5 ANOVA table.png"></p>
 <figcaption>Table 5: ANOVA Table</figcaption>
 </figure>
 </div>
@@ -576,24 +572,24 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 <p>There are two assumptions that must be checked.</p>
 <p><strong>Linearity</strong> - The relationship between the x variables and the log hazard should be linear. Similar to checking for linearity in other models, a residual plot is examined. Here the Martingale residuals are used. A smooth line is added to the graph to aid in assessing how well the points center around zero. This data meets the linearity assumption.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>all2.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> transplant2)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">plot</span>(<span class="fu">predict</span>(all2.mod), <span class="fu">residuals</span>(all2.mod, <span class="at">type=</span><span class="st">"martingale"</span>), <span class="at">xlab =</span> <span class="st">"Predicted Values"</span>, <span class="at">ylab =</span> <span class="st">"Martingale Residuals"</span>, <span class="at">main =</span> <span class="st">"All2 Residual Plot"</span>,<span class="at">las=</span><span class="dv">1</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">lines</span>(<span class="fu">smooth.spline</span>(<span class="fu">predict</span>(all2.mod), <span class="fu">residuals</span>(all2.mod, <span class="at">type =</span> <span class="st">"martingale"</span>)),<span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>all2.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> transplant2)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">plot</span>(<span class="fu">predict</span>(all2.mod), <span class="fu">residuals</span>(all2.mod, <span class="at">type=</span><span class="st">"martingale"</span>), <span class="at">xlab =</span> <span class="st">"Predicted Values"</span>, <span class="at">ylab =</span> <span class="st">"Martingale Residuals"</span>, <span class="at">main =</span> <span class="st">"All2 Residual Plot"</span>,<span class="at">las=</span><span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="fu">lines</span>(<span class="fu">smooth.spline</span>(<span class="fu">predict</span>(all2.mod), <span class="fu">residuals</span>(all2.mod, <span class="at">type =</span> <span class="st">"martingale"</span>)),<span class="at">col=</span><span class="st">"red"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/All2_Residual_Plot.png"></p>
+<p><img data-src="Image 1 Residual Plot.png"></p>
 <figcaption>Image 1: Residual Plot</figcaption>
 </figure>
 </div>
 <p><strong>Proportional Hazards</strong> - Use the Schoenfield test.</p>
 <p>H0 = hazards are proportional. A high p value (&gt;0.05) here and we fail to reject the null hypothesis. A table shows the test results for each variable and the overall model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">cox.zph</span>(all2.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">cox.zph</span>(all2.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/Proportional Hazard.png" width="602"></p>
+<p><img data-src="Table 6 Proportional Hazard.png" width="602"></p>
 <figcaption>Table 6: Proportional Hazard p-values</figcaption>
 </figure>
 </div>
@@ -603,16 +599,15 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 <h2>Model 4: Stratified Transplant Status</h2>
 <p>To deal with the assumption violation, transplant status was stratified - in effect stratification creates two models one for each status (received transplant, control)</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>all_strTrtmnt.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> <span class="fu">strata</span>(transplant2))</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">summary</span>(all_strTrtmnt.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>all_strTrtmnt.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age <span class="sc">+</span> prior2 <span class="sc">+</span> <span class="fu">strata</span>(transplant2))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="Images/Model 4.png" width="894" class="r-stretch quarto-figure-center"><p class="caption">Table 7: Stratified Transplant Status</p></section>
+<img data-src="Table 7 Stratified Transplant.png" width="894" class="r-stretch quarto-figure-center"><p class="caption">Table 7: Stratified Transplant Status</p></section>
 <section id="histogram-by-age-groups" class="slide level2 scrollable">
 <h2>Histogram by Age Groups</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/Histogram_of_age.png"></p>
+<p><img data-src="Histogram_of_age.png"></p>
 <figcaption>Image2: Histogram by Age</figcaption>
 </figure>
 </div>
@@ -627,7 +622,7 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 <h3 id="histogram-by-age-groups-1">Histogram by Age Groups</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="Images/Histogram_of_age2.png"></p>
+<p><img data-src="Histogram_of_age2.png"></p>
 <figcaption>Image 3: Histogram by Age Groups</figcaption>
 </figure>
 </div>
@@ -643,17 +638,17 @@ ln(h(t)/h_0(t))= \beta_1X_{1} + \beta_{2}X_{2} + \dots + \beta_n X_{n}
 <h2>Extra Model 5: Age Categorized</h2>
 <p>A model was generated for this age categorized variable.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#generate model with chategorized age</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>all_agechat.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age2 <span class="sc">+</span> prior2 <span class="sc">+</span> <span class="fu">strata</span>(transplant2))</span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="fu">summary</span>(all_agechat.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#generate model with chategorized age</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>all_agechat.mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(survtime, survived2)<span class="sc">~</span> age2 <span class="sc">+</span> prior2 <span class="sc">+</span> <span class="fu">strata</span>(transplant2))</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">summary</span>(all_agechat.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
-<img data-src="Images/Model 5.png" class="r-stretch quarto-figure-center"><p class="caption">Table 8: Age Categorized</p></section>
+<img data-src="Table 8 Age categorized.png" class="r-stretch quarto-figure-center"><p class="caption">Table 8: Age Categorized</p></section>
 <section id="estimated-survival-curve" class="slide level2 scrollable">
 <h2>Estimated Survival Curve</h2>
 <p>The advantage of the Cox PHM is that we do not need to know the baseline hazard. Not knowing the baseline hazard means we can not say the hazard for the studied group. We can only give the ratio of those two. Without the baseline hazard and the hazard of the studied group, survival curves can not be calculated. However using mean values of variables a survival curve can be estimated.</p>
 
-<img data-src="Images/Survival Plot.png" class="r-stretch quarto-figure-center"><p class="caption">Image 4: Survival Plot Heart Transplant vs No Heart Transplant</p><ul>
+<img data-src="Image 4 Survival Plot.png" class="r-stretch quarto-figure-center"><p class="caption">Image 4: Survival Plot Heart Transplant vs No Heart Transplant</p><ul>
 <li><p>Color representation: Teal for heart transplant recipients, red for non-recipients</p></li>
 <li><p>Study participants: 99 patients examined; 32 (32.32%) did not receive a transplant, while 67 (67.67%) did</p></li>
 <li><p>Initial 500 days’ outcome:</p>
