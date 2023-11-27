@@ -277,9 +277,7 @@ Grouping patients by age was crucial to obtain a clearer visual depiction of the
 ![Image 3: Histogram by Age Groups](Histogram_of_age2.png)
 
 ::: incremental
--   Second histogram created to condense broader age ranges for better insight
-
--   Observation from the initial histogram: Most represented age groups between 40s to mid-50s
+-   Second histogram created to condense age ranges for better insight
 
 -   Categorization in the second histogram: Patients grouped into three categories: 40 and under, between 40-49, and 50 and over
 :::
