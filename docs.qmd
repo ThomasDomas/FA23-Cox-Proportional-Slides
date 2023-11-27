@@ -303,7 +303,7 @@ summary(all_agechat.mod)
 The advantage of the Cox PHM is that we do not need to know the baseline hazard. Not knowing the baseline hazard means we can not say the hazard for the studied group. We can only give the ratio of those two. Without the baseline hazard and the hazard of the studied group, survival curves can not be calculated. However using mean values of variables a survival curve can be estimated.
 
 
-![Image 4: Survival Plot Heart Transplant vs No Heart Transplant](Image 4 Survival Plot.png)
+![Image 4: Survival Plot Heart Transplant vs No Heart Transplant](Image 4 Survival Plot.png) .
 
 -   Color representation: Teal for heart transplant recipients, red for non-recipients
 
