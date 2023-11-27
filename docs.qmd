@@ -145,7 +145,7 @@ The variables included in the Cox model as the x variable (or predictors) are ac
 
 ## Data prior to Transformation
 
-![Table 1: Summary of First 15 rows of Heart Transplant Dataset](Table1 Head data set.png)
+![Table 1: Summary of First 15 rows of Heart Transplant Dataset](Table1 Head data set.png) .
 
 -   Variables within the data set such as: survived, prior, and transplant needed to be converted from characteristic columns to numeric columns as can be seen in table 1.
 
